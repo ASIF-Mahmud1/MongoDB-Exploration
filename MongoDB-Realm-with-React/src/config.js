@@ -1,4 +1,0 @@
-const REACT_APP_NOT_SECRET_CODE="RealmAPPId"
-export{
-    REACT_APP_NOT_SECRET_CODE
-}
