@@ -1,0 +1,3 @@
+[submodule "realm-tutorial-web"]
+	path = realm-tutorial-web
+	url = https://github.com/mongodb-university/realm-tutorial-web.git
