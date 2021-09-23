@@ -37,10 +37,13 @@ async function logIn() {
 
   try {
     // TODO: create new emailPassword credentials and assign it to ``credentials``
-    const credentials;
+    const credentials=Realm.Credentials.emailPassword(
+      input.email,
+      input.password
+    )
 
     // TODO: call the app.logIn() method and assign its value to ``user``
-    const user;
+    const user = await app.logIn(credentials); 
 
     if (user) {
       output.result("You have successfully logged in as " + app.currentUser.id);
