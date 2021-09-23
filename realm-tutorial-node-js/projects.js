@@ -13,8 +13,8 @@ async function getProjects() {
   const currentUser = users.getAuthedUser().id;
   // TODO: Call the objectForPrimaryKey() method to get the current user and assign
   // the memberOf property of the user to projects.
-  const user;
-  const projects;
+  const user = realm.objectForPrimaryKey("User", currentUser);
+  const projects = user.memberOf;
   return projects;
 }
 

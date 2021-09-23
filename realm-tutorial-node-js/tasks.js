@@ -8,7 +8,7 @@ const users = require("./users");
 exports.getTasks = async (partition) => {
   const realm = await index.getRealm(partition);
   //TODO: Call the objects() method and pass in the name of the collection.
-  const tasks= realm.objects("Tasks")  // Note: Task schema can be seen : https://realm.mongodb.com/groups/5ff0489612632574a47097df/apps/6149d3a7b23f417e5e82c08a/dataSources/6149d3bb0569d4b7dbc01d58/rules/6149d3bc0569d4b7dbc01da7/schema
+  const tasks= realm.objects("Task")  // Note: Task schema can be seen : https://realm.mongodb.com/groups/5ff0489612632574a47097df/apps/6149d3a7b23f417e5e82c08a/dataSources/6149d3bb0569d4b7dbc01d58/rules/6149d3bc0569d4b7dbc01da7/schema
 
   output.header("MY TASKS:");
   output.result(JSON.stringify(tasks, null, 2));
