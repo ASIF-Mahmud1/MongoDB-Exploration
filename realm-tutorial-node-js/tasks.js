@@ -8,6 +8,7 @@ const users = require("./users");
 exports.getTasks = async (partition) => {
   const realm = await index.getRealm(partition);
   //TODO: Call the objects() method and pass in the name of the collection.
+  const tasks= realm.objects("Tasks")  // Note: Task schema can be seen : https://realm.mongodb.com/groups/5ff0489612632574a47097df/apps/6149d3a7b23f417e5e82c08a/dataSources/6149d3bb0569d4b7dbc01d58/rules/6149d3bc0569d4b7dbc01da7/schema
 
   output.header("MY TASKS:");
   output.result(JSON.stringify(tasks, null, 2));
@@ -24,6 +25,7 @@ exports.getTask = async (partition) => {
       },
     ]);
     //TODO: Call the objectForPrimaryKey() method to get a task by its ID.
+    let result = realm.objectForPrimaryKey("Task", new bson.ObjectID(task.id));
 
     if (result !== undefined) {
       output.header("Here is the task you requested:");
@@ -57,6 +59,12 @@ exports.createTask = async (partition) => {
     let result;
     realm.write(() => {
       //TODO: Call the create() Realm function and pass in all of the required properties.
+      result = realm.create("Task", {
+        _id: new bson.ObjectID(),
+        _partition: partition,
+        name: task.name,
+        status: task.status.replace(/\s/g, ""), // Removes space from "In Progress",
+      });
 
     });
 
@@ -85,10 +93,10 @@ exports.deleteTask = async (partition) => {
 
   if (answers.confirm) {
     //TODO: Call the objectForPrimaryKey() method to get a task by its ID and assign it to task.
-    let task;
+    let task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id))
     realm.write(() => {
       //TODO: Call the delete() function.
-
+      realm.delete(task)
       output.result("Task deleted.");
     });
     return;
@@ -151,6 +159,8 @@ async function modifyTask(answers, partition) {
     realm.write(() => {
       //TODO: Call the objectForPrimaryKey() method to get the task by ID and
       //change the task object's status.
+      task = realm.objectForPrimaryKey("Task", new bson.ObjectID(answers.id));
+      task[answers.key] = answers.value;
     });
     return JSON.stringify(task, null, 2);
   } catch (err) {
